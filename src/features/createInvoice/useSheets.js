@@ -3,6 +3,7 @@ import {
   SPREADSHEET_ID,
   RANGES,
   INVOICE_TEMPLATE_ID,
+  FOLDER_ID,
 } from "../../helpers/constants.js";
 import { useNavigate } from "react-router-dom";
 import {
@@ -14,6 +15,7 @@ import {
   updateInvoiceNumber,
   deleteSheet,
   changeSheetName,
+  moveSheet,
 } from "./sheetsFunctions.js";
 import { createSheetPayload } from "../../helpers/helper.js";
 
@@ -94,8 +96,8 @@ const useSheets = () => {
   };
 
   const createCopyInvoiceTemplate = async (payload) => {
-    // const createResponse = await createSpreadsheet(`${payload.customerName}_${payload.invoiceNumber}`);
-    const createResponse = await createSpreadsheet("New sheet");
+    const createResponse = await createSpreadsheet(`${payload.customerName}_${payload.invoiceNumber}`);
+    // const createResponse = await createSpreadsheet("New sheet");
     newSpreadsheetId = createResponse.result.spreadsheetId;
     const copiedSheetResponse = await copySheet(
       newSpreadsheetId,
@@ -104,6 +106,7 @@ const useSheets = () => {
     );
     deleteSheet(newSpreadsheetId, 0);
     changeSheetName(newSpreadsheetId, copiedSheetResponse.result.sheetId, "Invoice");
+    moveSheet(newSpreadsheetId, FOLDER_ID);
     var data = createSheetPayload(payload, copiedSheetResponse.result.sheetId);
     const updateResponse = await batchUpdate(newSpreadsheetId, data);
     downloadSheet(newSpreadsheetId, copiedSheetResponse.result.sheetId);

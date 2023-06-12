@@ -14,11 +14,17 @@ const useAuth = (setIsLoggedIn) => {
           apiKey: API_KEY,
           clientId: CLIENT_ID,
           discoveryDocs: [
+            "https://www.googleapis.com/discovery/v1/apis/drive/v3/rest",
             "https://sheets.googleapis.com/$discovery/rest?version=v4",
           ],
-          scope: "https://www.googleapis.com/auth/spreadsheets",
+          scope:
+            "https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/spreadsheets",
           plugin_name: "invoicee",
         });
+        // Load the Drive and Sheets API client libraries
+        await window.gapi.client.load("drive", "v3");
+        await window.gapi.client.load("sheets", "v4");
+
         const isLoggedIn = await window.gapi.auth2
           .getAuthInstance()
           .isSignedIn.get();

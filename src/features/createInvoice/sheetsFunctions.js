@@ -1,4 +1,4 @@
-import { RANGES } from "../../helpers/constants";
+import { FOLDER_ID, RANGES } from "../../helpers/constants";
 
 export const createSpreadsheet = async (name) => {
   // Create a copy of the invoice template
@@ -11,6 +11,16 @@ export const createSpreadsheet = async (name) => {
   });
   return createResponse;
 };
+
+export const moveSheet = async (spreadsheetId, folderId) => {
+  const moveRequest = {
+    fileId: spreadsheetId,
+    addParents: folderId,
+  };
+
+  // Make the move sheet request
+  await window.gapi.client.drive.files.update(moveRequest);
+}
 
 export const copySheet = async (
   destinationSpreadsheetId,

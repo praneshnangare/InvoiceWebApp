@@ -9,6 +9,7 @@ export const DISCOVERY_DOCS = [
 export const SCOPE = "https://www.googleapis.com/auth/spreadsheets";
 export const PLUGIN_NAME = "invoicee";
 export const INVOICE_TEMPLATE_ID = "1653630901";
+export const FOLDER_ID = "19g36c0SsjCN5zALcSn3DglpCJtf-mSZk";
 export const RANGES = {
   CUSTOMERS: "Customers!A5:E",
   PRODUCTS: "Products!B5:B",

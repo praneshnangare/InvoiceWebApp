@@ -243,10 +243,14 @@ export const createSheetPayload = (payload, sheetId) => {
             values: [
               {
                 userEnteredValue: {
-                  stringValue: payload.customerGst,
+                  stringValue: payload.customerState,
+                },
+                userEnteredFormat: {
+                  borders: borderFormatting.bottom,
                 },
               },
             ],
+            
           },
         ],
       },
@@ -266,10 +270,7 @@ export const createSheetPayload = (payload, sheetId) => {
             values: [
               {
                 userEnteredValue: {
-                  stringValue: payload.customerState,
-                },
-                userEnteredFormat: {
-                  borders: borderFormatting.bottom,
+                  stringValue: payload.customerGst,
                 },
               },
             ],
@@ -283,8 +284,8 @@ export const createSheetPayload = (payload, sheetId) => {
           sheetId: sheetId,
           startRowIndex: 7,
           endRowIndex: 8,
-          startColumnIndex: 7,
-          endColumnIndex: 8,
+          startColumnIndex: 8,
+          endColumnIndex: 9,
         },
         fields: "*",
         rows: [
@@ -309,8 +310,8 @@ export const createSheetPayload = (payload, sheetId) => {
           sheetId: sheetId,
           startRowIndex: 8,
           endRowIndex: 9,
-          startColumnIndex: 7,
-          endColumnIndex: 8,
+          startColumnIndex: 8,
+          endColumnIndex: 9,
         },
         fields: "*",
         rows: [
