@@ -17,10 +17,8 @@ export const moveSheet = async (spreadsheetId, folderId) => {
     fileId: spreadsheetId,
     addParents: folderId,
   };
-
-  // Make the move sheet request
   await window.gapi.client.drive.files.update(moveRequest);
-}
+};
 
 export const copySheet = async (
   destinationSpreadsheetId,
@@ -51,68 +49,71 @@ export const batchUpdate = async (spreadsheetId, data) => {
     .catch((error) => {
       console.error("Error performing batch update: ", error);
     });
-    return response;
+  return response;
 };
 
 export const downloadSheet = async (spreadsheetId, sheetId) => {
   const downloadLink = `https://docs.google.com/spreadsheets/d/${spreadsheetId}/export?exportFormat=pdf&gid=${sheetId}`;
   window.open(downloadLink, "_blank");
-}
+};
 
-export const getBorders = async (spreadsheetId ,sheetId, data) => {
+export const getBorders = async (spreadsheetId, sheetId, data) => {
   // Get the existing borders of the copied sheet
   const getBordersRequest = {
     spreadsheetId: spreadsheetId,
-    ranges: ['Invoice!A1:K50'],
-    fields: 'sheets.data.rowData.values.effectiveFormat.borders',
+    ranges: ["Invoice!A1:K50"],
+    fields: "sheets.data.rowData.values.effectiveFormat.borders",
   };
-  console.log("in the function -> " + data)
-  await window.gapi.client.sheets.spreadsheets.get(getBordersRequest).then((response, ) => {
-    const borders = response.result.sheets[0].data[0].rowData[0].values[0].effectiveFormat.borders;
-    
-    // Include the existing borders in the requests array
-    data.push({
-      updateBorders: {
-        range: {
-          sheetId: sheetId,
-          startRowIndex: 0,
-          endRowIndex: data.length,
-          startColumnIndex: 0,
-          endColumnIndex: data[0].length,
-        },
-        top: borders.top,
-        bottom: borders.bottom,
-        left: borders.left,
-        right: borders.right,
-        innerHorizontal: borders.innerHorizontal,
-        innerVertical: borders.innerVertical,
-      },
-    });
-  });
-  return data;
+  console.log("in the function -> " + data);
+  await window.gapi.client.sheets.spreadsheets
+    .get(getBordersRequest)
+    .then((response) => {
+      const borders =
+        response.result.sheets[0].data[0].rowData[0].values[0].effectiveFormat
+          .borders;
 
-}
+      // Include the existing borders in the requests array
+      data.push({
+        updateBorders: {
+          range: {
+            sheetId: sheetId,
+            startRowIndex: 0,
+            endRowIndex: data.length,
+            startColumnIndex: 0,
+            endColumnIndex: data[0].length,
+          },
+          top: borders.top,
+          bottom: borders.bottom,
+          left: borders.left,
+          right: borders.right,
+          innerHorizontal: borders.innerHorizontal,
+          innerVertical: borders.innerVertical,
+        },
+      });
+    });
+  return data;
+};
 
 export const updateInvoiceNumber = async (spreadsheetId, data) => {
   const range = RANGES.CURRENT_INVOICE_NUMBER;
-  const valueInputOption = 'USER_ENTERED';
+  const valueInputOption = "USER_ENTERED";
   const resource = {
-    values: [
-      [data],
-    ],
+    values: [[data]],
   };
 
   try {
-    const response = await window.gapi.client.sheets.spreadsheets.values.update({
-      spreadsheetId: spreadsheetId,
-      range: range,
-      valueInputOption: valueInputOption,
-      resource: resource,
-    });
+    const response = await window.gapi.client.sheets.spreadsheets.values.update(
+      {
+        spreadsheetId: spreadsheetId,
+        range: range,
+        valueInputOption: valueInputOption,
+        resource: resource,
+      }
+    );
 
     return response;
   } catch (error) {
-    console.error('Error updating value in sheet:', error);
+    console.error("Error updating value in sheet:", error);
     throw error;
   }
 };
@@ -123,7 +124,9 @@ export const deleteSpreadsheetByName = async (spreadsheetName) => {
   const spreadsheets = response.result.files;
 
   // Find the spreadsheet by its name
-  const spreadsheet = spreadsheets.find((sheet) => sheet.name === spreadsheetName);
+  const spreadsheet = spreadsheets.find(
+    (sheet) => sheet.name === spreadsheetName
+  );
   console.log(spreadsheet);
   if (spreadsheet) {
     const spreadsheetId = spreadsheet.id;
@@ -148,7 +151,7 @@ export const deleteSpreadsheetByName = async (spreadsheetName) => {
 
       console.log(`Spreadsheet "${spreadsheetName}" has been deleted.`);
     } catch (error) {
-      console.error('Error deleting the spreadsheet:', error);
+      console.error("Error deleting the spreadsheet:", error);
     }
   } else {
     console.log(`Spreadsheet "${spreadsheetName}" not found.`);
@@ -170,9 +173,9 @@ export const deleteSheet = async (spreadsheetId, sheetId) => {
       },
     });
 
-    console.log('Sheet deleted successfully!');
+    console.log("Sheet deleted successfully!");
   } catch (error) {
-    console.error('Error deleting sheet:', error);
+    console.error("Error deleting sheet:", error);
   }
 };
 
@@ -187,11 +190,47 @@ export const changeSheetName = async (spreadsheetId, sheetId, sheetName) => {
               sheetId: sheetId,
               title: sheetName,
             },
-            fields: 'title',
+            fields: "title",
           },
         },
       ],
     },
   });
   return response;
-}
+};
+
+export const getValue = async (spreadsheetId, range) => {
+  try {
+    const response = await window.gapi.client.sheets.spreadsheets.values.get({
+      spreadsheetId: spreadsheetId,
+      range: range,
+    });
+    console.log("Value retrieved successfully:", response.result.values);
+    return response.result.values;
+  } catch (error) {
+    console.error("Error getting value from sheet:", error);
+    throw error; // Re-throw the error to be handled by the caller
+  }
+};
+
+
+export const addRowToEnd = async (spreadsheetId, range, values) => {
+  await window.gapi.client.sheets.spreadsheets.values
+    .append({
+      spreadsheetId,
+      range,
+      valueInputOption: "USER_ENTERED",
+      resource: {
+        values,
+      },
+    })
+    .then(
+      (response) => {
+        console.log("New row added successfully:", response);
+        return response.result.values;
+      },
+      (error) => {
+        console.error("Error adding new row:", error);
+      }
+    );
+};

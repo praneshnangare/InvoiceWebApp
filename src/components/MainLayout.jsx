@@ -12,7 +12,7 @@ const MainLayout = ({ rightComponent }) => {
       alignItems="center"
       height="100vh"
       width="100vw"
-      // backgroundColor="#2b2b2f"
+      backgroundColor="#e5e5e7"
     >
       <Box style={{ flex: 1 }}>
         <Grid container sx={{ mt: { xs: -5, md: -12 }, flex: 1 }}>

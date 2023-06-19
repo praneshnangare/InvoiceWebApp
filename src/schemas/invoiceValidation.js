@@ -1,7 +1,7 @@
 import * as Yup from 'yup';
 
 const validationSchema = Yup.object().shape({
-  invoiceDate: Yup.date().required('Invoice Date is required'),
+  invoiceDate: Yup.date().required('Invoice date is required'),
   invoiceNumber: Yup.string().required('Invoice Number is required'),
   selectedCustomer: Yup.object().shape({
     name: Yup.string().required('Customer Name is required'),

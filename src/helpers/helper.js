@@ -77,17 +77,7 @@ export const numberToWords = (number) => {
 };
 
 export const createSheetPayload = (payload, sheetId) => {
-  let totalAmount = 0;
-  payload.products.map((product) => {
-    totalAmount += Number(product.quantity) * Number(product.price);
-  });
 
-  const gstAmount = (totalAmount * 0.09).toFixed(2);
-  const totalAmountWithGst = totalAmount + gstAmount * 2;
-  const roundedTotalAmountWithGst = Math.round(totalAmountWithGst).toFixed(2);
-  const roundOff = (roundedTotalAmountWithGst - totalAmountWithGst).toFixed(2);
-  const totalAmountInWords = 
-    numberToWords(roundedTotalAmountWithGst, { currency: true })
   const productsList = payload.products.map((product, index) => {
     return [
       index + 1,
@@ -342,7 +332,7 @@ export const createSheetPayload = (payload, sheetId) => {
             values: [
               {
                 userEnteredValue: {
-                  stringValue: String(totalAmount),
+                  stringValue: String(payload.totalAmount),
                 },
                 userEnteredFormat: {
                   borders: borderFormatting.bothVertical,
@@ -368,7 +358,7 @@ export const createSheetPayload = (payload, sheetId) => {
             values: [
               {
                 userEnteredValue: {
-                  stringValue: String(gstAmount),
+                  stringValue: String(payload.gstAmount),
                 },
                 userEnteredFormat: {
                   borders: borderFormatting.bothVertical,
@@ -394,7 +384,7 @@ export const createSheetPayload = (payload, sheetId) => {
             values: [
               {
                 userEnteredValue: {
-                  stringValue: String(gstAmount),
+                  stringValue: String(payload.gstAmount),
                 },
                 userEnteredFormat: {
                   borders: borderFormatting.bothVertical,
@@ -420,7 +410,7 @@ export const createSheetPayload = (payload, sheetId) => {
             values: [
               {
                 userEnteredValue: {
-                  stringValue: String(roundOff),
+                  stringValue: String(payload.roundOff),
                 },
                 userEnteredFormat: {
                   borders: borderFormatting.bothVertical,
@@ -446,7 +436,7 @@ export const createSheetPayload = (payload, sheetId) => {
             values: [
               {
                 userEnteredValue: {
-                  stringValue: String(roundedTotalAmountWithGst),
+                  stringValue: String(payload.roundedTotalAmountWithGst),
                 },
                 userEnteredFormat: {
                   borders: borderFormatting.bothVertical,
@@ -472,13 +462,10 @@ export const createSheetPayload = (payload, sheetId) => {
             values: [
               {
                 userEnteredValue: {
-                  stringValue: "INR " + String(totalAmountInWords) + " Only",
+                  stringValue: "INR " + String(payload.totalAmountInWords) + " Only",
                 },
                 userEnteredFormat: {
-                  borders: {
-                    ...borderFormatting.bothHorizontal,
-                    ...borderFormatting.left,
-                  },
+                  borders: borderFormatting.allSides
                 },
               },
             ],
