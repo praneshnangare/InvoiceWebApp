@@ -1,44 +1,115 @@
 // typographyVariants.js
+export const createResponsiveTypography = (theme) => ({
+  ...theme,
+  typography : {
+    ...theme.typography,
+  fontFamily: '"Open Sans", "Roboto", sans-serif',
+  fontStyle: "normal",
+  light: {
+    fontFamily: '"Open Sans", "Roboto", sans-serif',
+    fontSize: "0.9rem",
+    fontWeight: 100,
+  },
 
-export const typographyVariants = {
   h1: {
-    fontSize: 32,
-    fontWeight: 700 ,
-    lineHeight: 1.2,
-    letterSpacing: '-0.5px',
+    fontWeight: 700,
+    fontSize: "2.25rem", //36px
+    lineHeight: "2.75rem",
   },
   h2: {
-    fontSize: 28,
-    fontWeight: 600,
-    lineHeight: 1.3,
-    letterSpacing: '-0.25px',
+    fontWeight: 700,
+    fontSize: "1.875rem", //30px
+    lineHeight: "2.25rem",
+    // Sample Responsive Mobile Values
+    [theme.breakpoints.down("md")]: {
+      fontSize: "1.625rem", //26px
+      lineHeight: "1.875rem",
+    },
   },
   h3: {
-    fontSize: 24,
-    fontWeight: 500,
-    lineHeight: 1.4,
-    letterSpacing: '0',
+    fontWeight: 600,
+    fontSize: "1.5rem", //
+    lineHeight: "2.25rem",
   },
   h4: {
-    fontSize: 20,
-    fontWeight: 400,
-    lineHeight: 1.5,
-    letterSpacing: '0.25px',
+    fontWeight: 700,
+    fontSize: "1.625rem", //26px
+    lineHeight: "1.875rem",
   },
   h5: {
-    fontSize: 18,
-    fontWeight: 300,
-    lineHeight: 1.6,
-    letterSpacing: '0',
+    fontWeight: 700,
+    fontSize: "1.25rem", //20px
+    lineHeight: "1.75rem",
+  },
+  h6: {
+    fontWeight: 700,
+    fontSize: "1.125rem", //18px
+    lineHeight: "1.75rem",
+  },
+  title1: {
+    fontWeight: 400,
+    fontSize: "1rem", //16px
+    lineHeight: "1.25rem",
+  },
+  title2: {
+    fontWeight: 700,
+    fontSize: "1rem", //16px
+    lineHeight: "1.25rem",
+  },
+  title3: {
+    fontWeight: 600,
+    fontSize: "1rem", //16px
+    lineHeight: "1.25rem",
+  },
+  subtitle: {
+    fontWeight: 600,
+    fontSize: "0.875rem", //14px
+    lineHeight: "1.25rem",
+  },
+  subtitle2: {
+    fontWeight: 700,
+    fontSize: "0.875rem", //14px
+    lineHeight: "1.25rem",
   },
   body1: {
-    fontSize: 14,
-    lineHeight: 1.5,
-    letterSpacing: '0.15px',
+    fontWeight: 400,
+    fontSize: "0.875rem", //14px
+    lineHeight: "1.25rem",
   },
-  caption: {
-    fontSize: 12,
-    lineHeight: 1.4,
-    letterSpacing: '0.5px',
+  body2: {
+    fontWeight: 600,
+    fontSize: "0.875rem", //14px
+    lineHeight: "1.25rem",
   },
-};
+  smallText1: {
+    fontWeight: 400,
+    fontSize: "0.813rem", //13px
+    lineHeight: "1.125rem",
+  },
+  smallText2: {
+    fontWeight: 600,
+    fontSize: "0.813rem", //13px
+    lineHeight: "1.125rem",
+  },
+  subText1: {
+    fontWeight: 400,
+    fontSize: "0.75rem", //12px
+    lineHeight: "1.125rem",
+  },
+  subText2: {
+    fontWeight: 600,
+    fontSize: "0.75rem", //12px
+    lineHeight: "1.125rem",
+  },
+  subText3: {
+    fontWeight: 700,
+    fontSize: "0.75rem", //12px
+    lineHeight: "1.125rem",
+  },
+  button: {
+    fontSize: "0.75rem",
+    fontWeight: 600,
+    lineHeight: "1.25rem",
+    textTransform: "none",
+  }}
+});

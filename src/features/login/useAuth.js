@@ -35,7 +35,7 @@ const useAuth = (setIsLoggedIn) => {
           setIsLoggedIn(true);
         }
         setIsLoading(false);
-        navigate("/create-invoice");
+        navigate("/create-invoices");
       } catch (error) {
         setIsLoading(false);
         setIsLoggedIn(false);

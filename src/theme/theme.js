@@ -1,14 +1,11 @@
 import { createTheme, ThemeProvider } from "@mui/material";
-import { typographyVariants } from "./typography";
+import { createResponsiveTypography } from "./typography";
 import { palette } from './palette';
 
-const theme = createTheme({
-  typography: {
-    ...typographyVariants,
-  },
+let theme = createTheme({
   palette:{
     ...palette,
   }
 });
-
+theme = createResponsiveTypography(theme);
 export default theme;

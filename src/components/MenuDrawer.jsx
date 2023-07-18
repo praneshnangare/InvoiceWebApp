@@ -1,41 +1,102 @@
-import React from "react";
-import {
-  Drawer,
-  IconButton,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  Paper,
-  Toolbar,
-  Typography,
-  styled,
-} from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import Menu from "./Menu";
-import MenuList from "./MenuList";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
-import useAuth from "../features/login/useAuth";
+import * as React from 'react';
+import { styled, useTheme } from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import Drawer from '@mui/material/Drawer';
+import CssBaseline from '@mui/material/CssBaseline';
+import MuiAppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import List from '@mui/material/List';
+import Typography from '@mui/material/Typography';
+import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
+import TableViewIcon from '@mui/icons-material/TableView';
+import LogoutIcon from '@mui/icons-material/Logout';
+import CreateIcon from '@mui/icons-material/Create';
+import MenuIcon from '@mui/icons-material/Menu';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import InboxIcon from '@mui/icons-material/MoveToInbox';
+import MailIcon from '@mui/icons-material/Mail';
+import { useNavigate } from 'react-router-dom';
+import useAuth from '../features/login/useAuth';
+import { useMediaQuery } from '@mui/material';
 
-const StyledMenuPaper = styled(Paper)(({ theme }) => ({
-  background: "linear-gradient(180deg, #005C97 19.46%, #363795 122.95%)",
-  borderRadius: "20px",
-  padding: "30px 0px",
+const drawerWidth = 240;
+
+const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
+  ({ theme, open, isBrowser }) => ({
+    flexGrow: 1,
+    padding: theme.spacing(3),
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    marginLeft: `-${drawerWidth}px`,
+    ...(open && isBrowser && {
+      transition: theme.transitions.create('margin', {
+        easing: theme.transitions.easing.easeOut,
+        duration: theme.transitions.duration.enteringScreen,
+      }),
+      marginLeft: 0,
+    }),
+  }),
+);
+
+const AppBar = styled(MuiAppBar, {
+  shouldForwardProp: (prop) => prop !== 'open',
+})(({ theme, open, isBrowser }) => ({
+  transition: theme.transitions.create(['margin', 'width'], {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  ...(open && isBrowser && {
+    width: `calc(100% - ${drawerWidth}px)`,
+    marginLeft: `${drawerWidth}px`,
+    transition: theme.transitions.create(['margin', 'width'], {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  }),
 }));
 
-const StyledNavLink = styled(NavLink)(({ theme }) => ({
-  textDecoration: "none",
-  textTransform: "none",
+const DrawerHeader = styled('div')(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  padding: theme.spacing(0, 1),
+  // necessary for content to be below app bar
+  ...theme.mixins.toolbar,
+  justifyContent: 'flex-end',
 }));
 
-const MenuDrawer = () => {
-  const [open, setOpen] = React.useState(false);
-  const { logout } = useAuth();
+const MENU_ITEMS = [
+  {
+    label: "Create Invoice",
+    value: "/create-invoices",
+    icon: <CreateIcon/>
+  },
+  {
+    label: "View Invoices",
+    value: "/view-invoices",
+    icon: <TableViewIcon/>
+  },
+  {
+    label: "Logout",
+    value: "/logout",
+    isAction: true,
+    icon: <LogoutIcon/>
+  },
+];
 
+export default function PersistentDrawerLeft() {
+  const theme = useTheme();
+  const isBrowser = useMediaQuery(theme.breakpoints.up("md"));
+  const [open, setOpen] = React.useState(isBrowser ? true : false);
   const navigate = useNavigate();
-  const location = useLocation();
+  const {logout} = useAuth();
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -43,78 +104,60 @@ const MenuDrawer = () => {
 
   const handleDrawerClose = () => {
     setOpen(false);
-  };
-
-  const handleMenuItemClick = (path) => {
-    navigate(path);
-    handleDrawerClose();
-  };
-
-  const handleLogout = () => {
-    // Perform your logout logic here
-    // For example, redirect to the login page or clear session data
-    console.log("Logout clicked");
-    logout();
-  };
-
-  const MENU_ITEMS = [
-    {
-      label: "Create Invoice",
-      value: "/create-invoice",
-    },
-    {
-      label: "View Invoices",
-      value: "/view-invoices",
-    },
-    {
-      label: "Logout",
-      value: "/logout",
-      isAction: true,
-    },
-  ];
-
+  };console.log("is browser " + isBrowser)
   return (
-    <>
-      <Toolbar>
-        <IconButton edge="start" color="inherit" onClick={handleDrawerOpen}>
-          <MenuIcon />
-        </IconButton>
-      </Toolbar>
-      <Drawer anchor="left" open={open} onClose={handleDrawerClose}>
-        <div>
-          <IconButton onClick={handleDrawerClose}>
-            <ChevronLeftIcon />
+    <Box sx={{ display: 'flex' }}>
+      <AppBar position="fixed" open={open} isBrowser={isBrowser}>
+        <Toolbar>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            onClick={handleDrawerOpen}
+            edge="start"
+            sx={{ mr: 2, ...(open && { display: 'none' }) }}
+          >
+            <MenuIcon />
           </IconButton>
-        </div>
-
+          <Typography variant="h6" noWrap component="div">
+            Pranesh Enterprises
+          </Typography>
+        </Toolbar>
+      </AppBar>
+      <Drawer
+        sx={{
+          width: drawerWidth,
+          // flexShrink: 0,
+          '& .MuiDrawer-paper': {
+            width: drawerWidth,
+            boxSizing: 'border-box',
+          },
+        }}
+        docked={"false"}
+        variant={isBrowser ? "persistent" : "temporary"}
+        anchor="left"
+        open={open}
+      >
+        <DrawerHeader>
+          <IconButton onClick={handleDrawerClose}>
+            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+          </IconButton>
+        </DrawerHeader>
         <List>
-          <ListItemButton
-            onClick={() => handleMenuItemClick("/create-invoice")}
-            selected={location.pathname === "/create-invoice"}
-          >
-            <ListItemIcon>{/* Add icon component here */}</ListItemIcon>
-            <ListItemText primary="Create Invoice" />
-          </ListItemButton>
-
-          <ListItemButton
-            onClick={() => handleMenuItemClick("/view-invoices")}
-            selected={location.pathname === "/view-invoices"}
-          >
-            <ListItemIcon>{/* Add icon component here */}</ListItemIcon>
-            <ListItemText primary="View Invoices" />
-          </ListItemButton>
-
-          <ListItemButton
-            onClick={() => handleLogout()}
-            selected={location.pathname === "/logout"}
-          >
-            <ListItemIcon>{/* Add icon component here */}</ListItemIcon>
-            <ListItemText primary="Logout" />
-          </ListItemButton>
+          {MENU_ITEMS.map((item, index) => (
+            <ListItem key={index} disablePadding onClick={() => item.isAction ? logout() : navigate(item.value)}>
+              <ListItemButton>
+                <ListItemIcon>
+                  {item.icon}
+                </ListItemIcon>
+                <ListItemText primary={item.label} />
+              </ListItemButton>
+            </ListItem>
+          ))}
         </List>
       </Drawer>
-    </>
+      <Main open={open} isBrowser={isBrowser}>
+        <DrawerHeader />
+      </Main>
+    </Box>
   );
-};
-
-export default MenuDrawer;
+}

@@ -8,15 +8,12 @@ import {
   TextField,
   Autocomplete,
   Grid,
-  Box,
-  Fab,
 } from "@mui/material";
-import useSheets from "./useSheets";
+import useInvoice from "./useInvoice";
 import MainLayout from "../../components/MainLayout";
 import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
 import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
 import { useFormik } from "formik";
-import * as Yup from "yup";
 import Button from "../../components/Button";
 import validationSchema from "../../schemas/invoiceValidation";
 
@@ -24,12 +21,11 @@ const InvoiceForm = () => {
   const [customers, setCustomers] = useState([]);
   const [productsList, setProductsList] = useState([]);
   const {
-    updateSheet,
     fetchCustomers,
     fetchProducts,
     fetchInvoiceNumber,
     createInvoice,
-  } = useSheets();
+  } = useInvoice();
 
   useEffect(() => {
     fetchCustomers((values) => setCustomers(values));
@@ -37,7 +33,6 @@ const InvoiceForm = () => {
     fetchInvoiceNumber((values) =>
       formik.setFieldValue("invoiceNumber", values)
     );
-    // updateSheet(spreadsheetId, range, values);
   }, []);
 
   const initialValues = {
@@ -57,7 +52,6 @@ const InvoiceForm = () => {
       customerState: values.selectedCustomer.state,
       products: values.products,
     };
-    // updateSheet(payload);
     createInvoice(payload);
   };
 
@@ -99,15 +93,13 @@ const InvoiceForm = () => {
         container
         display={"flex"}
         flexDirection={"column"}
-        spacing={2}
+        spacing={3}
         xs={12}
         md={5}
+        lg={10}
       >
-        <Grid item xs={12}>
-          <Typography align="center" variant="h1">Pranesh Enterprises</Typography>
-        </Grid>
-        <Grid item xs={12}>
-          <Typography variant="h5">Invoice</Typography>
+        <Grid item xs={12} sx={{mb:1}}>
+          <Typography align="center" variant="h2">Create Invoice</Typography>
         </Grid>
         <Grid item xs={12}>
           <TextField

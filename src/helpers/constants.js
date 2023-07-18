@@ -13,7 +13,7 @@ export const FOLDER_ID = "19g36c0SsjCN5zALcSn3DglpCJtf-mSZk";
 export const RANGES = {
   CUSTOMERS: "Customers!A5:E",
   PRODUCTS: "Products!B5:B",
-  INVOICE_LIST: "InvoiceList!B:E",
+  INVOICE_LIST: "InvoiceList!B3:E",
   CUSTOMER_NAME: "Invoice!B9",
   CUSTOMER_ADDRESS: "Invoice!B10",
   CUSTOMER_GST: "Invoice!C13",

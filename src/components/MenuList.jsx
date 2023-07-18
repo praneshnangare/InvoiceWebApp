@@ -12,7 +12,7 @@ const MenuList = () => {
   const MENU_ITEMS = [
     {
       label: "Create Invoice",
-      value: "/create-invoice",
+      value: "/create-invoices",
     },
     {
       label: "View Invoices",

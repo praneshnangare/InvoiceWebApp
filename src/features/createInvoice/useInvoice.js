@@ -11,7 +11,6 @@ import {
   copySheet,
   createSpreadsheet,
   downloadSheet,
-  getBorders,
   updateInvoiceNumber,
   deleteSheet,
   changeSheetName,
@@ -21,7 +20,7 @@ import {
 } from "./sheetsFunctions.js";
 import { createSheetPayload, numberToWords  } from "../../helpers/helper.js";
 
-const useSheets = () => {
+const useInvoice = () => {
   const navigate = useNavigate();
   let newSpreadsheetId;
 
@@ -93,6 +92,25 @@ const useSheets = () => {
     }
   };
 
+  const fetchInvoices = async (updateValues) => {
+    try {
+      let values = await getValue(SPREADSHEET_ID, RANGES.INVOICE_LIST);
+      const invoiceList = values.map((invoice, index) => {
+        return {
+          id: index,
+          invoiceNumber: invoice[0],
+          customerName: invoice[1],
+          invoiceDate: invoice[2],
+          totalAmount: invoice[3],
+        };
+      });
+      updateValues(invoiceList);
+    } catch (error) {
+      // Handle the error appropriately
+      console.error("Error fetching invoice list:", error);
+    }
+  };
+
   const fetchInvoiceNumber = async (updateValues) => {
     try {
       let values = await getValue(
@@ -148,8 +166,9 @@ const useSheets = () => {
     fetchCustomers,
     fetchProducts,
     fetchInvoiceNumber,
+    fetchInvoices,
     createInvoice,
   };
 };
 
-export default useSheets;
+export default useInvoice;
