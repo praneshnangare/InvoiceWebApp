@@ -13,7 +13,8 @@ import {
   Typography,
 } from "@mui/material";
 import MainLayout from "../../components/MainLayout";
-import StickyHeadTable from "./invoiceTable";
+// import StickyHeadTable from "./InvoiceTable";
+import StickyHeadTable from "./InvoiceTable";
 
 const TableSkeleton = () => (
   <>

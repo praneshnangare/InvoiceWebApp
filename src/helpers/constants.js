@@ -1,3 +1,11 @@
+//Store States
+export const INITIAL = "INITIAL";
+export const LOADING = "LOADING";
+export const REFRESHING = "REFRESHING";
+export const LOADED = "LOADED";
+export const ERROR = "ERROR";
+export const EMPTY = "EMPTY";
+
 export const CLIENT_ID =
   "106800480963-2brh49tiunu5shtuac8u3ojavj96qjcq.apps.googleusercontent.com";
 export const API_KEY = "AIzaSyASjytXBD7oy-7P-6h4vS37rTyOIFEtMTo";
@@ -50,7 +58,7 @@ export const borderFormatting = {
     right: borderStyle,
   },
   top: {
-    top : borderStyle,
+    top: borderStyle,
   },
   left: {
     left: borderStyle,

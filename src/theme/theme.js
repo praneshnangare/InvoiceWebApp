@@ -5,6 +5,15 @@ import { palette } from './palette';
 let theme = createTheme({
   palette:{
     ...palette,
+  },
+  components: {
+    MuiCssBaseline: {
+      styleOverrides: {
+        ".Mui-focused": {
+          backgroundColor: `#FFFFFF`
+        }
+      }
+    }
   }
 });
 theme = createResponsiveTypography(theme);

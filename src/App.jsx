@@ -7,17 +7,23 @@ import {
 } from "react-router-dom";
 import Routes from "./routes/Routes";
 import theme from "./theme/theme";
-import { ThemeProvider } from '@mui/material';
+import { ThemeProvider } from "@mui/material";
+import store from "./redux/store";
+import { Provider } from "react-redux";
+import ToastBanner from "./features/toastBanner/ToastBanner";
 
 const App = () => {
   const router = createBrowserRouter(createRoutesFromElements(Routes()), {
     basename: "",
   });
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <RouterProvider router={router} />
-    </ThemeProvider>
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <RouterProvider router={router} />
+        <ToastBanner />
+      </ThemeProvider>
+    </Provider>
   );
 };
 

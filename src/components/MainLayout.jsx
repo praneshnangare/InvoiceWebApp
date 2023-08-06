@@ -3,34 +3,29 @@ import Menu from "./Menu";
 import MenuDrawer from "./MenuDrawer";
 import { Box, Grid, useMediaQuery, useTheme } from "@mui/material";
 
-const MainLayout = ({ rightComponent }) => {
-
+const MainLayout = ({ rightComponent, header }) => {
   return (
     <Box
       sx={{
         display: "flex",
         width: "100vw",
         height: "100vh",
-        backgroundColor: "#ffffff",
+        backgroundColor: "background.default",
       }}
     >
       <Grid item>
-        <MenuDrawer />
+        <MenuDrawer header={header} />
       </Grid>
       <Grid
+        item
         container
         xs={12}
         sx={{
           padding: 1,
-          mt:12,
+          mt: 12,
         }}
       >
-        
-        <Grid
-          item
-          container
-          justifyContent={"center"}
-        >
+        <Grid item container sx={{m:2, ml:3}}>
           {rightComponent}
         </Grid>
       </Grid>

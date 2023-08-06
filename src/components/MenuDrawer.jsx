@@ -36,7 +36,7 @@ import { useMediaQuery } from "@mui/material";
 
 const drawerWidth = 240;
 
-const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
+const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" && prop !== "isBrowser"})(
   ({ theme, open, isBrowser }) => ({
     flexGrow: 1,
     padding: theme.spacing(3),
@@ -57,7 +57,7 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
 );
 
 const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== "open",
+  shouldForwardProp: (prop) => prop !== "open" && prop !== "isBrowser",
 })(({ theme, open, isBrowser }) => ({
   transition: theme.transitions.create(["margin", "width"], {
     easing: theme.transitions.easing.sharp,
@@ -102,36 +102,39 @@ const createMenuItems = (logout) => {
       ],
     },
     {
-      label : "Shoes",
+      label : "Inventory Management",
       icon: <IceSkatingIcon />,
       subMenu: [
         {
-          label: "Inward",
-          value: "/create-invoices",
+          label: "Inventory",
+          value: "/inventory",
           icon: <FileDownloadIcon />,
         },
         {
+          label: "Purchase",
+          value: "/inventory/purchase",
+          icon: <FileDownloadIcon />,
+        },
+        {
+          label: "Sales",
+          value: "/inventory/sales",
+          icon: <FileUploadIcon />,
+        },
+        {
+          label: "Inward",
+          value: "/inventory/inward",
+          icon: <FileUploadIcon />,
+        },
+        {
           label: "Outward",
-          value: "/view-invoices",
+          value: "/inventory/outward",
           icon: <FileUploadIcon />,
         },
       ],
     },
     {
-      label : "Amphenol",
-      icon: <BusinessIcon />,
-      subMenu: [
-        {
-          label: "Create Invoice",
-          value: "/create-invoices",
-          icon: <CreateIcon />,
-        },
-        {
-          label: "View Invoices",
-          value: "/view-invoices",
-          icon: <TableViewIcon />,
-        },
-      ],
+      label: "trial",
+      value: "/trial"
     },
     {
       label: "Logout",
@@ -142,7 +145,7 @@ const createMenuItems = (logout) => {
   ];
 };
 
-export default function PersistentDrawerLeft() {
+export default function PersistentDrawerLeft({header}) {
   const theme = useTheme();
   const isBrowser = useMediaQuery(theme.breakpoints.up("md"));
   const [open, setOpen] = React.useState(isBrowser ? true : false);
@@ -160,12 +163,11 @@ export default function PersistentDrawerLeft() {
   };
 
   const handleSubMenuClick = (index) => {
-    console.log("helllo");
     setOpenSubMenuIndex((prevIndex) => (prevIndex === index ? null : index));
   };
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{ display: "flex", height:"auto" }}>
       <AppBar position="fixed" open={open} isBrowser={isBrowser}>
         <Toolbar>
           <IconButton
@@ -178,14 +180,14 @@ export default function PersistentDrawerLeft() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            Pranesh Enterprises
+            {header ?? "Pranesh Enterprises"}
           </Typography>
         </Toolbar>
       </AppBar>
       <Drawer
         sx={{
           width: drawerWidth,
-          // flexShrink: 0,
+          flexShrink: 0,
           "& .MuiDrawer-paper": {
             width: drawerWidth,
             boxSizing: "border-box",
@@ -256,7 +258,7 @@ export default function PersistentDrawerLeft() {
           ))}
         </List>
       </Drawer>
-      <Main open={open} isBrowser={isBrowser}>
+      <Main open={open}isBrowser={isBrowser}>
         <DrawerHeader />
       </Main>
     </Box>
