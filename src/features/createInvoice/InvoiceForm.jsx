@@ -20,12 +20,8 @@ import validationSchema from "../../schemas/invoiceValidation";
 const InvoiceForm = () => {
   const [customers, setCustomers] = useState([]);
   const [productsList, setProductsList] = useState([]);
-  const {
-    fetchCustomers,
-    fetchProducts,
-    fetchInvoiceNumber,
-    createInvoice,
-  } = useInvoice();
+  const { fetchCustomers, fetchProducts, fetchInvoiceNumber, createInvoice } =
+    useInvoice();
 
   useEffect(() => {
     fetchCustomers((values) => setCustomers(values));
@@ -39,6 +35,7 @@ const InvoiceForm = () => {
     invoiceDate: "",
     invoiceNumber: 0,
     selectedCustomer: null,
+    gst: 0.06,
     products: [{ name: "", quantity: 0, price: 0 }],
   };
 
@@ -49,6 +46,7 @@ const InvoiceForm = () => {
       customerName: values.selectedCustomer.name,
       customerAddress: values.selectedCustomer.address,
       customerGst: values.selectedCustomer.gstNumber,
+      gst: values.gst,
       customerState: values.selectedCustomer.state,
       products: values.products,
     };
@@ -63,6 +61,9 @@ const InvoiceForm = () => {
 
   const handleCustomerSelection = (event) => {
     formik.setFieldValue("selectedCustomer", event.target.value);
+  };
+  const handleGSTChange = (event) => {
+    formik.setFieldValue("gst", event.target.value);
   };
 
   const handleAddProduct = () => {
@@ -98,8 +99,10 @@ const InvoiceForm = () => {
         md={5}
         lg={10}
       >
-        <Grid item xs={12} sx={{mb:1}}>
-          <Typography align="center" variant="h2">Create Invoice</Typography>
+        <Grid item xs={12} sx={{ mb: 1 }}>
+          <Typography align="center" variant="h2">
+            Create Invoice
+          </Typography>
         </Grid>
         <Grid item xs={12}>
           <TextField
@@ -154,6 +157,35 @@ const InvoiceForm = () => {
                   {formik.errors.selectedCustomer.name}
                 </Typography>
               )}
+          </FormControl>
+        </Grid>
+        <Grid item xs={12}>
+          <FormControl fullWidth>
+            <InputLabel id="customer-name-label">GST Percentage</InputLabel>
+            <Select
+              labelId="gst-label"
+              id="gst-value"
+              autoWidth={true}
+              value={formik.values.gst ?? 0.06}
+              onChange={handleGSTChange}
+              onBlur={formik.handleBlur}
+            >
+              <MenuItem key={6} value={0.06}>
+                {"6 %"}
+              </MenuItem>
+              <MenuItem key={9} value={0.09}>
+                {"9 %"}
+              </MenuItem>
+              <MenuItem key={12} value={0.12}>
+                {"9 %"}
+              </MenuItem>
+              <MenuItem key={18} value={0.18}>
+                {"9 %"}
+              </MenuItem>
+            </Select>
+            {formik.touched.gst && formik.errors.gst && (
+              <Typography color="error">{formik.errors.gst}</Typography>
+            )}
           </FormControl>
         </Grid>
         {formik.values.products.map((product, index) => (

@@ -349,6 +349,58 @@ export const createSheetPayload = (payload, sheetId) => {
           sheetId: sheetId,
           startRowIndex: 25,
           endRowIndex: 26,
+          startColumnIndex: 8,
+          endColumnIndex: 9,
+        },
+        fields: "*",
+        rows: [
+          {
+            values: [
+              {
+                userEnteredValue: {
+                  stringValue: `SGST @${String(payload.gst*100)}%`,
+                },
+                userEnteredFormat: {
+                  borders: borderFormatting.bothVertical,
+                },
+              },
+            ],
+          },
+        ],
+      },
+    },
+    {
+      updateCells: {
+        range: {
+          sheetId: sheetId,
+          startRowIndex: 26,
+          endRowIndex: 27,
+          startColumnIndex: 8,
+          endColumnIndex: 9,
+        },
+        fields: "*",
+        rows: [
+          {
+            values: [
+              {
+                userEnteredValue: {
+                  stringValue: `CGST @${String(payload.gst*100)}%`,
+                },
+                userEnteredFormat: {
+                  borders: borderFormatting.bothVertical,
+                },
+              },
+            ],
+          },
+        ],
+      },
+    },
+    {
+      updateCells: {
+        range: {
+          sheetId: sheetId,
+          startRowIndex: 25,
+          endRowIndex: 26,
           startColumnIndex: 9,
           endColumnIndex: 10,
         },

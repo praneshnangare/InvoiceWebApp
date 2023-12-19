@@ -36,7 +36,7 @@ const useInvoice = () => {
       totalAmount += Number(product.quantity) * Number(product.price);
     });
 
-    const gstAmount = (totalAmount * 0.09).toFixed(2);
+    const gstAmount = (totalAmount * payload.gst).toFixed(2);
     const totalAmountWithGst = totalAmount + gstAmount * 2;
     const roundedTotalAmountWithGst = Math.round(totalAmountWithGst).toFixed(2);
     const roundOff = (roundedTotalAmountWithGst - totalAmountWithGst).toFixed(
